@@ -14,11 +14,11 @@ const Profile = () => {
   // Dummy user data
   const {user} = useContext(UserContext);
 
-  const handleLogout = ()=>{
+  const handleLogout = async()=>{
     const token = Cookies.get('token');
     console.log("handleLogout called");
 
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}api/logout`, {token})
+    await axios.get(`${process.env.REACT_APP_BACKEND_URL}api/logout`, {token})
     .then(res=>{
 
       if(res.status===200){
@@ -56,7 +56,7 @@ const Profile = () => {
         <Link to="/dashboard" className="w-full bg-blue-500 text-white px-4 py-2 rounded-md text-center block hover:bg-blue-600">
           Back to Dashboard
         </Link>
-        <Link to="/logout" onClick={handleLogout} className="w-full bg-red-300 mt-2 text-white px-4 py-2 rounded-md text-center block hover:bg-red-400">Logout</Link>
+        <button onClick={handleLogout} className="w-full bg-red-300 mt-2 text-white px-4 py-2 rounded-md text-center block hover:bg-red-400">Logout </button>
         
       </div>
       <ToastContainer/>

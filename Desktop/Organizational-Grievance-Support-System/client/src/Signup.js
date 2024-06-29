@@ -1,37 +1,42 @@
-// SignupForm.js
-
 import React, { useState } from 'react';
+import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-
+import { Link, useNavigate } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Signup = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    avatar: null,
-  });
+  const navigate = useNavigate();
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] =useState("");
+  const handleFileChange = ()=>{
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  }
 
-  const handleFileChange = (e) => {
-    setFormData({
-      ...formData,
-      avatar: e.target.files[0],
-    });
-  };
+
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log(formData);
+    console.log(name,email,password);
+
+     if (e && e.preventDefault) {
+      e.preventDefault();
+    }
+
+
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}api/register`, {name, email, password})
+      .then((res) => {
+        if (res.status === 201) {
+          toast.success('Register successful!', {
+            position: 'bottom-center',
+            onClose: () => navigate('/login'),
+          });
+        }
+      })
+      .catch((error) => {
+        toast.error(`${error.message}`, {
+          position: 'bottom-center',
+        });
+      });
   };
 
   return (
@@ -45,10 +50,8 @@ const Signup = () => {
             </label>
             <input
               type="text"
-              name="name"
-              id="name"
-              value={formData.name}
-              onChange={handleChange}
+              onChange={(e)=>setName(e.target.value)}
+              value={name}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               required
             />
@@ -61,8 +64,8 @@ const Signup = () => {
               type="email"
               name="email"
               id="email"
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e)=>setEmail(e.target.value)}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               required
             />
@@ -75,8 +78,8 @@ const Signup = () => {
               type="password"
               name="password"
               id="password"
-              value={formData.password}
-              onChange={handleChange}
+              value={password}
+              onChange={(e)=>setPassword(e.target.value)}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               required
             />
@@ -102,19 +105,15 @@ const Signup = () => {
           </button>
         </form>
         <div className="mt-8 text-center">
-        <div class="text-center sm:text-left whitespace-nowrap">
-                    <Link to='/' > <button class="transition duration-200 mx-5 px-5 py-4 cursor-pointer font-normal text-sm rounded-lg text-gray-500 hover:bg-gray-200 focus:outline-none focus:bg-gray-300 focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 ring-inset">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 inline-block align-text-top">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-                <span  class="inline-block ml-1">Back to home</span>
-                </button>
-                </Link>
-                </div>
+          <Link to="/" className="transition duration-200 mx-5 px-5 py-4 cursor-pointer font-normal text-sm rounded-lg text-gray-500 hover:bg-gray-200 focus:outline-none focus:bg-gray-300 focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 ring-inset">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 inline-block align-text-top">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span className="inline-block ml-1">Back to home</span>
+          </Link>
         </div>
       </div>
       <ToastContainer />
-
     </div>
   );
 };

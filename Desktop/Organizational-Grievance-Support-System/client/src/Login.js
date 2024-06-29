@@ -17,7 +17,7 @@ const Login = () => {
 
   const {setUser} = useContext(UserContext)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     if (e && e.preventDefault) {
       e.preventDefault();
     }
@@ -27,7 +27,7 @@ const Login = () => {
     console.log("submit called");
     // console.log(email + password);
     //  API call logic here
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}api/login`, {email, password})
+    await axios.post(`${process.env.REACT_APP_BACKEND_URL}api/login`, {email, password})
     .then(res=>{
       console.log(res);
       if(res.status===200){

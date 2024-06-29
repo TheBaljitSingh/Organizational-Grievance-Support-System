@@ -4,7 +4,7 @@ const sendToken = require("../utils/jwtToken");
 
 exports.registerUser = async (req, res)=>{
     const {name, email, password} = req.body;
-
+    // console.log(name);
     const alreadyExist = await User.findOne({email});
     if(alreadyExist){
         return res.status(400).json({message:`User already exist with this ${email}`})
