@@ -1,19 +1,22 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const userSchema = require('./models/userModel')
-
+const cors = require("cors")
 const app = express();
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.json());
+app.use(cookieParser());
+app.use(cors());
 
 
 //route importing
-const user = require("./Routes/userRoute");
+const user = require("./Routes/userRoute"); // here lets assume user is employee who want to raise a graivance ticket
 
 
 
-app.use("/api/v1", user);
+app.use("/api", user);
 
 
 

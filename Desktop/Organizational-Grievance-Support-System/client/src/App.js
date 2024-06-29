@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Home from './Home';
+import Login from './Login';
+import Signup from './Signup';
+import { ToastContainer, toast } from 'react-toastify';
 
-function App() {
+import "react-toastify/dist/ReactToastify.css";
+import Dashboard from './Dashboard';
+import GrievanceForm from "./GrievanceForm"
+import Profile from "./Profile"
+import ProtectedRoute from './ProtectedRoute';
+import UserContextProvider from "./context/userContextProvider"
+
+
+export default function App(){
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <BrowserRouter>
+    <UserContextProvider>
+      <Routes>
+        <Route path="/" exact element={<Home/>} />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/signup" element={<Signup/>} />
+        <Route path='/Dashboard' element= {<ProtectedRoute><Dashboard/></ProtectedRoute>} />
+        <Route path='/raise-grievance' element={<GrievanceForm/>} />
+        <Route path='/me' element={<Profile/>} />
 
-export default App;
+
+      </Routes>
+      </UserContextProvider>
+    </BrowserRouter>
+  );
+};
+;

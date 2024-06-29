@@ -22,7 +22,6 @@ exports.registerUser = async (req, res)=>{
 }
 
 exports.loginUser = async (req, res)=>{
-    try{
 
         const {email, password} = req.body;
         
@@ -40,10 +39,8 @@ exports.loginUser = async (req, res)=>{
         console.log("login  wal user ke details: "+user.email);
         
         sendToken(user, 200, res);
-    }
-    catch(error){
-        next(error);
-    }
+    
+        
 }
 exports.logoutUser = async(req, res, next)=>{
 
@@ -64,17 +61,32 @@ exports.logoutUser = async(req, res, next)=>{
 
 }
 
-exports.getUserDetails = async(req, ers)=>{
-    console.log(`hello ${req.user.name}, how are you`);
+exports.getUserDetails = async (req, res) => {
+    try {
+        console.log(`hello ${req.user.name}, how are you`);
 
-    const user = await User.findById(req.user.id);
+        const user = await User.findById(req.user.id);
 
-    res.status(200).json({
-        success:true,
-        user
-    });
-    
-}
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            user
+        });
+    } catch (error) {
+        console.error('Error fetching user details:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server Error'
+        });
+    }
+};
+
 
 //get single ueer - admin
 
