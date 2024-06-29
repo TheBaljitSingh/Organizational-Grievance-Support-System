@@ -56,11 +56,11 @@ const Profile = () => {
 
           <h3 className="text-xl font-semibold">{user.name}</h3>
           <p className="text-gray-600">{user.email}</p>
-        </div>
+        </div>  
         <Link to="/dashboard" className="w-full bg-blue-500 text-white px-4 py-2 rounded-md text-center block hover:bg-blue-600">
           Back to Dashboard
         </Link>
-        <button onClick={handleLogout} className="w-full bg-red-300 mt-2 text-white px-4 py-2 rounded-md text-center block hover:bg-red-400">Logout </button>
+        <button onClick={handleLogout} className="w-full bg-red-500 mt-2 text-white px-4 py-2 rounded-md text-center block hover:bg-red-500">Logout </button>
         
       </div>
       <ToastContainer/>

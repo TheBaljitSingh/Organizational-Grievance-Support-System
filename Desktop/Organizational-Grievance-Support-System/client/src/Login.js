@@ -9,13 +9,13 @@ import UserContext from './context/userContext';
 
 
 const Login = () => {
-  const navigate = useNavigate();
-
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-
+  
+  
   const {setUser} = useContext(UserContext)
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     if (e && e.preventDefault) {
@@ -29,10 +29,10 @@ const Login = () => {
     //  API call logic here
     await axios.post(`${process.env.REACT_APP_BACKEND_URL}api/login`, {email, password})
     .then(res=>{
-      console.log(res);
+      console.log(res.data.user.role);// ye sahi hai
       if(res.status===200){
-        console.log(res.data);
         setUser(res.data.user);
+        console.log("printing the user data"+res);
 
         Cookies.set('token', res.data.token,{expires: 3})
 

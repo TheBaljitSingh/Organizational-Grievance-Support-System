@@ -1,5 +1,49 @@
 const User = require("../models/userModel");
 const sendToken = require("../utils/jwtToken");
+const Grievance = require("../models/grievanceModel");
+
+
+exports.getGrievancesAdmin = async(req, res)=>{
+    const grievance = await Grievance.find();
+    res.status(200).json({grievance});
+    
+}
+
+
+exports.getGrievances = async(req, res)=>{
+        const grievances = await Grievance.find({createdBy:req.user._id});
+        res.status(200).json({ grievances });
+       
+}
+
+exports.createGrievance = async (req, res) => {
+    try {
+      const { title, description, type, department, severity, } = req.body;
+    //   const { _id } = req.user;
+      const createdBy = req.user._id;
+    //   const grievanceId = generateUniqueId();
+  
+      if (!title || !description || !type || !department || !severity || !createdBy) {
+        return res.status(400).json({ error: 'Required fields are missing' });
+      }
+  
+      const grievance = await Grievance.create({
+        title,
+        description,
+        type,
+        department,
+        severity,
+        createdBy,
+      });
+  
+      res.status(201).json({ success: true, grievance });
+    } catch (error) {
+      console.error('Error creating grievance:', error.message);
+      res.status(500).json({ error: 'Server error' });
+    }
+  };
+
+
 
 
 exports.registerUser = async (req, res)=>{
