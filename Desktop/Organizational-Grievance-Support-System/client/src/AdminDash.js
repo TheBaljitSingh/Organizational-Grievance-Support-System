@@ -17,7 +17,8 @@ export default function AdminDash() {
             Authorization: `Bearer ${token}`,
           },
         });
-        setGrievances(response.data.grievances || []); // Ensure grievances is initialized with an empty array if response.data.grievances is undefined
+        console.log(response.data);
+        setGrievances(response.data.grievance); // Ensure grievances is initialized with an empty array if response.data.grievances is undefined
       } catch (error) {
         setError(error.message);
       } finally {
@@ -53,9 +54,7 @@ export default function AdminDash() {
       <main className="content flex-grow bg-gray-100 max-w-screen-xl mx-auto py-8">
         <div className="max-w-screen-lg mx-auto">
           <h3 className="text-2xl font-semibold mb-4">Your Grievances</h3>
-          {grievances.length === 0 ? (
-            <p className="text-center text-gray-500">No grievances found.</p>
-          ) : (
+          {grievances && (
             <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-md overflow-hidden">
               <thead className="bg-indigo-700 text-white">
                 <tr>
