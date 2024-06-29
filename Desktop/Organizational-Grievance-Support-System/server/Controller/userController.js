@@ -5,6 +5,11 @@ const sendToken = require("../utils/jwtToken");
 exports.registerUser = async (req, res)=>{
     const {name, email, password} = req.body;
 
+    const alreadyExist = await User.findOne({email});
+    if(alreadyExist){
+        return res.status(400).json({message:`User already exist with this ${email}`})
+    }
+
     const user = await User.create({
         name, email, password,
         avatar:{
@@ -57,6 +62,18 @@ exports.logoutUser = async(req, res, next)=>{
         message: "Logged Out",
     });
 
+}
+
+exports.getUserDetails = async(req, ers)=>{
+    console.log(`hello ${req.user.name}, how are you`);
+
+    const user = await User.findById(req.user.id);
+
+    res.status(200).json({
+        success:true,
+        user
+    });
+    
 }
 
 //get single ueer - admin

@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
         maxLength:[30, "Name can't exceed 30 char"],
         minLength:[4, "Name should more the 4 char"],
     },
-    email:{
+    email:{ 
         type: String,
         required:[true, "Please Enter your email"],
         unique: true,
@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema({
     },
     role:{
         type:String,
-        default:"employee"
+        default:"employee",
     },
     createdAt:{
         type: Date,
