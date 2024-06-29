@@ -83,7 +83,7 @@ export default function AdminDash() {
 
       <footer className="footer bg-indigo-700 text-white py-4 text-center">
         <div className="footer-content max-w-screen-xl mx-auto">
-          &copy; 2023 Admin Dashboard. All rights reserved.
+          &copy; 2024 Admin Dashboard. All rights reserved.
         </div>
       </footer>
     </div>
