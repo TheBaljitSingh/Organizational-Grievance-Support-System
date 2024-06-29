@@ -2,8 +2,18 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from "axios"
+import { ToastContainer, toast } from 'react-toastify';
+
+
+import Cookies from "js-cookie"
+
 
 const GrievanceForm = () => {
+
+
+  // console.log(Cookies.get('token'));
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -35,15 +45,27 @@ const GrievanceForm = () => {
       data.append(key, formData[key]);
     }
 
-    // Add your form submission logic here, for example:
-    // fetch('/api/grievances', {
-    //   method: 'POST',
-    //   body: data,
-    // }).then(response => response.json()).then(data => {
-    //   console.log('Grievance submitted:', data);
-    // }).catch(error => {
-    //   console.error('Error:', error);
-    // });
+    const token = Cookies.get('token');
+
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}api/creategrievance`,formData,{
+      headers:{
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(res=>{
+      console.log(res.status);
+      if(res.status===201){
+        toast.success('Grievance Submitted!..', {
+          position: "bottom-center",
+        });
+      }
+
+    })
+    .catch(error=>{
+      toast.error('Newtork Error!..', {
+        position: "bottom-center",
+      });
+    })
 
     console.log('Grievance submitted:', formData);
   };
@@ -154,6 +176,8 @@ const GrievanceForm = () => {
           </Link>
         </div>
       </div>
+      <ToastContainer />
+
     </div>
   );
 };

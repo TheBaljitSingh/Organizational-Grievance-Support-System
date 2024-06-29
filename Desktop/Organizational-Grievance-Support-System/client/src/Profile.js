@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import UserContext from './context/userContext';
 import axios from 'axios';
 import Cookies from "js-cookie";
+import { RiAccountCircleFill } from "react-icons/ri";
+
 import { ToastContainer,toast } from "react-toastify";
 
 
@@ -48,8 +50,10 @@ const Profile = () => {
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-5">
       <div className="bg-white p-8 shadow-lg rounded-lg max-w-md w-full">
         <h2 className="text-2xl font-bold mb-6 text-center">Profile</h2>
-        <div className="text-center mb-6">
-          <img src={user.avatar} alt="Avatar" className="w-24 h-24 rounded-full mx-auto mb-4" />
+        <div className="text-center mb-6 flex flex-col">
+        <RiAccountCircleFill size={40} className='flex justify-center w-full h-24' />
+          {/* <img src={user.avatar} alt="Avatar" className="w-24 h-24 rounded-full mx-auto mb-4 flex items-center"  /> */}
+
           <h3 className="text-xl font-semibold">{user.name}</h3>
           <p className="text-gray-600">{user.email}</p>
         </div>
