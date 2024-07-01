@@ -1,10 +1,12 @@
 const jwt = require("jsonwebtoken");
 
 
+console.log("print env "+process.env.PORT)
+
 //Creating Token and saving in cookie
     const sendToken = (user, statusCode, res)=>{
     // ye token generate kiya, jwt method use karke
-    console.log("sendToken method is called");
+    // console.log("sendToken method is called");
     
     const token = jwt.sign({id:user._id},process.env.JWT_SECRET,{
         expiresIn:process.env.JWT_EXPIRE

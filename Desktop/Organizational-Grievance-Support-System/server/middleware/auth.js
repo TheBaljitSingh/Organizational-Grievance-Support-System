@@ -1,7 +1,5 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel")
-const dotenv = require("dotenv");
-dotenv.config({path:"../config/config.env"});
 
 
 exports.isAuthenticatedUser = async(req, res, next)=>{
@@ -10,6 +8,7 @@ exports.isAuthenticatedUser = async(req, res, next)=>{
     try {
         // const {token} = req.cookies; // Assuming token is sent in the Authorization header
         const token = req.headers['authorization']?.split(' ')[1];
+        console.log("print Bearer token "+req.cookie);
 
     
         if(!token){

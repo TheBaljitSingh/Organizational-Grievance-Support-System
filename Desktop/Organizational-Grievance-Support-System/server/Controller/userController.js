@@ -1,6 +1,8 @@
 const User = require("../models/userModel");
 const sendToken = require("../utils/jwtToken");
 const Grievance = require("../models/grievanceModel");
+// import { uploadOnCloudinary } from "../utils/cloudinary";
+const {uploadOnCloudinary} = require("../utils/cloudinary");
 
 
 exports.getGrievancesAdmin = async(req, res)=>{
@@ -49,16 +51,44 @@ exports.createGrievance = async (req, res) => {
 exports.registerUser = async (req, res)=>{
     const {name, email, password} = req.body;
     // console.log(name);
+   
+    if([name, email, password].some((field)=>
+        field?.trim()===""
+    )){
+        return res.status(400).json({
+            message:`field should not be empty`
+        })
+
+    }
+
     const alreadyExist = await User.findOne({email});
     if(alreadyExist){
         return res.status(400).json({message:`User already exist with this ${email}`})
     }
+    // console.log(req.files['avatar'][0]);
+    console.log(req.files['avatar']);
+
+    // const avatarLocalPath =   req.files['avatar'][0].path;
+
+    let avatarLocalPath;
+    if(req.files && Array.isArray(req.files['avatar'])
+    && req.files['avatar'].length>0){
+    avatarLocalPath = req.files['avatar'][0].path;
+    }
+
+    
+    // console.log("avtarfile path: "+ avatarLocalPath);
+    const avatar =  await uploadOnCloudinary(avatarLocalPath);
+
+    
+    console.log("avatar is uploaded : "+avatar);
+
 
     const user = await User.create({
         name, email, password,
         avatar:{
-            public_id:"this is sample id",
-            url:"profileUrl"
+            public_id:avatar?.public_id || "mubypp9e5kisuzhyeqmb" ,
+            url:avatar?.url || "https://res.cloudinary.com/dzdt11nsx/image/upload/v1719822618/mubypp9e5kisuzhyeqmb.png",
         },
 
     })
