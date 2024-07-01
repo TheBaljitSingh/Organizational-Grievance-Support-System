@@ -17,6 +17,7 @@ const Signup = () => {
     setPreviewAvatar(URL.createObjectURL(e.target.files[0]) || null);
   
    }
+   
 
   const handleSubmit = (e) => {
     // console.log(name,email,password);
