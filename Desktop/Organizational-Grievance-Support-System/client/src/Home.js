@@ -22,7 +22,7 @@ const Home = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 shadow-lg rounded-lg max-w-md w-full text-center">
-        <h2 className="text-2xl font-bold mb-8">Welcome to Our App</h2>
+        <h2 className="text-2xl font-bold mb-8">Welcome to Our Grievance System</h2>
         <div className="flex flex-col space-y-4">
           <Link
             to="/login"

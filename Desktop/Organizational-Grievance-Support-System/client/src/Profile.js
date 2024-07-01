@@ -46,16 +46,17 @@ const Profile = () => {
 
   }
 
+  console.log(user.avatar);
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-5">
       <div className="bg-white p-8 shadow-lg rounded-lg max-w-md w-full">
         <h2 className="text-2xl font-bold mb-6 text-center">Profile</h2>
         <div className="text-center mb-6 flex flex-col">
-        <RiAccountCircleFill size={40} className='flex justify-center w-full h-24' />
-          {/* <img src={user.avatar} alt="Avatar" className="w-24 h-24 rounded-full mx-auto mb-4 flex items-center"  /> */}
+        {/* <RiAccountCircleFill size={40} className='flex justify-center w-full h-24' /> */}
+          <img src={user.avatar.url} alt="Avatar" className="w-24 h-24 rounded-md mx-auto mb-4 flex items-center"  />
 
           <h3 className="text-xl font-semibold">{user.name}</h3>
-          <p className="text-gray-600">{user.email}</p>
+          <p className="text-gray-600 ">@<span className='font-medium'>{user.email.split('@')[0]}</span></p>
         </div>  
         <Link to="/dashboard" className="w-full bg-blue-500 text-white px-4 py-2 rounded-md text-center block hover:bg-blue-600">
           Back to Dashboard

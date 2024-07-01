@@ -9,21 +9,33 @@ const Signup = () => {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("");
   const [password, setPassword] =useState("");
-  const handleFileChange = ()=>{
+  const [file, setFile] = useState();
+  const [previewAvatar, setPreviewAvatar] = useState();
 
-  }
-
-
+  const handleFileChange = (e)=>{
+    setFile(e.target.files[0]);
+    setPreviewAvatar(URL.createObjectURL(e.target.files[0]) || null);
+  
+   }
 
   const handleSubmit = (e) => {
-    console.log(name,email,password);
+    // console.log(name,email,password);
 
      if (e && e.preventDefault) {
       e.preventDefault();
     }
+    const formData = new FormData();
+    formData.append("name",name);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append('avatar', file);
+    const config = {
+      headers:{
+        'content-type': 'multipart/form-data',
+      }
+    }
 
-
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}api/register`, {name, email, password})
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}api/register`, formData, config)
       .then((res) => {
         if (res.status === 201) {
           toast.success('Register successful!', {
@@ -43,7 +55,7 @@ const Signup = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 shadow-lg rounded-lg max-w-md w-full">
         <h2 className="text-2xl font-bold mb-8 text-center">Sign Up</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} action="/upload" enctype="multipart/form-data"  className="space-y-4 ">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
               Name
@@ -84,19 +96,26 @@ const Signup = () => {
               required
             />
           </div>
-          <div>
-            <label htmlFor="avatar" className="block text-sm font-medium text-gray-700">
-              Avatar
-            </label>
-            <input
-              type="file"
-              name="avatar"
-              id="avatar"
-              onChange={handleFileChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              accept="image/*"
-            />
+          <div className="">
+            <div className=" ">
+              <label htmlFor="avatar" className="block text-sm font-medium text-gray-700">
+                Avatar
+              </label>
+              <input
+                type="file"
+                name="avatar"
+                id="avatar"
+                onChange={handleFileChange}
+                className="mt-1 w-full block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                accept="image/*"
+              />
+            </div>
+            <div className="flex flex-col items-center  p-4 rounded-md">
+              <p className="mb-2">Preview Avatar</p>
+              <img src={previewAvatar} className=" w-24 h-24 rounded-md mx-auto mb-4 flex items-center"/>
+            </div>
           </div>
+
           <button
             type="submit"
             className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
